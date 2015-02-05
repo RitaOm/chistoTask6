@@ -1,0 +1,19 @@
+/* Common */
+.content {
+	margin: 20px;
+}
+
+table.employee-list-table {
+	border: 2px solid grey;
+	border-collapse: collapse;
+}
+
+.employee-list-table td, th {
+	border: 1px solid grey;
+}
+
+/* Error*/
+.error-content {
+	margin: 100px auto;
+	width: 40%;
+}

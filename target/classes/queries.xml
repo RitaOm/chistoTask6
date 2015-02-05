@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+<getEmployeeList>
+ 		 select * from(
+ 		 select q.*,rownum r from(
+     select 
+            employee.ID as EMPLOYEE_ID,
+            employee.FIRST_NAME as FIRST_NAME,
+            employee.LAST_NAME as LAST_NAME,
+            address.ID as ADDRESS_ID,
+            address.NAME as ADDRESS_NAME, 
+            city.ID as CITY_ID,     
+            city.NAME as CITY_NAME,  
+            country.ID as COUNTRY_ID,
+            country.NAME as COUNTRY_NAME
+        from
+            RITA_OM.EMPLOYEE employee 
+        inner join
+            RITA_OM.ADDRESS address 
+                on employee.ADDRESS_ID=address.ID 
+        left outer join
+            RITA_OM.CITY city 
+                on address.CITY_ID=city.ID 
+        left outer join
+            RITA_OM.COUNTRY country 
+                on city.COUNTRY_ID=country.ID
+         ORDER BY EMPLOYEE_ID )q)
+    where r BETWEEN ? AND ?
+</getEmployeeList>
+<getWorkplaces>
+select
+        workplace.EMPLOYEE_ID as EMPLOYEE_ID,
+        workplace.ID as WORKPLACE_ID,
+        office.ID as OFFICE_ID,
+        (select
+            COUNT(*) 
+        from
+            WORKPLACE workplace1 
+        where
+            workplace1.OFFICE_ID = office.ID) as NUM_OF_WORKERS,
+        address.ID as ADDRESS_ID,
+        address.NAME as ADDRESS_NAME,
+        city.ID as CITY_ID,
+        city.NAME as CITY_NAME,
+        country.ID as COUNTRY_ID,
+        country.NAME as COUNTRY_NAME,
+        company.ID as COMPANY_ID,
+        company.NAME as COMPANY_NAME,
+        position.ID as POSITION_ID,
+        position.NAME as POSITION_NAME 
+    from
+        RITA_OM.WORKPLACE workplace 
+    left outer join
+        RITA_OM.OFFICE office 
+            on workplace.OFFICE_ID=office.ID 
+    left outer join
+        RITA_OM.ADDRESS address 
+            on office.ADDRESS_ID=address.ID 
+    left outer join
+        RITA_OM.CITY city 
+            on address.CITY_ID=city.ID 
+    left outer join
+        RITA_OM.COUNTRY country 
+            on city.COUNTRY_ID=country.ID 
+    left outer join
+        RITA_OM.COMPANY company 
+            on office.COMPANY_ID=company.ID 
+    left outer join
+        RITA_OM.POSITION position 
+            on workplace.POSITION_ID=position.ID 
+    where
+        workplace.EMPLOYEE_ID in 
+</getWorkplaces>
+
+<getEmployeesNumber> 
+select
+        count(*) as COUNT 
+    from
+        RITA_OM.EMPLOYEE 
+ </getEmployeesNumber>
+         
+</queries>
